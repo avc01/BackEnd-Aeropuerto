@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Bitacoras")]
     public class Bitacora
     {
         [Key]
         public int BitacoraId { get; set; }
 
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime FechaHora { get; set; }
 
         [Required]
@@ -25,6 +24,7 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [ForeignKey("Usuarios")]
         [Required]
         public int UsuarioId { get; set; }
 

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Paises")]
     public class Pais
     {
         [Key]
@@ -16,6 +14,7 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [ForeignKey("Consecutivos")]
         [Required]
         public int ConsecutivoId { get; set; }
 

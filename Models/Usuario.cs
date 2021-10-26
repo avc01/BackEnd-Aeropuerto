@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Usuarios")]
     public class Usuario
     {
         [Key]
@@ -33,9 +32,14 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
-        [Required]
-        public int RolId { get; set; }
+        public ICollection<Compra> Compras { get; set; }
 
-        public Rol Roles { get; set; }
+        public ICollection<Reserva> Reservas { get; set; }
+
+        public ICollection<Tarjeta> Tarjetas { get; set; }
+
+        public ICollection<Bitacora> Bitacoras { get; set; }
+
+        public ICollection<Rol> Roles { get; set; }
     }
 }

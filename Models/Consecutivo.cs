@@ -1,13 +1,9 @@
-﻿#pragma warning disable CS8632
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Consecutivos")]
     public class Consecutivo
     {
         [Key]
@@ -24,5 +20,19 @@ namespace BackEnd_Aeropuerto.Models
         public int? RangoInicial { get; set; }
 
         public int? RangoFinal { get; set; }
+
+        // Navigation properties
+
+        public Aerolinea Aerolineas { get; set; }
+
+        public Puerta Puertas { get; set; }
+
+        public Pais Paises { get; set; }
+
+        public Compra Compras { get; set; }
+
+        public Reserva Reservas { get; set; }
+
+        public Vuelo Vuelos { get; set; }
     }
 }

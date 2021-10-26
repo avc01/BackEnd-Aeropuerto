@@ -1,9 +1,5 @@
 ﻿using BackEnd_Aeropuerto.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Data
 {
@@ -44,7 +40,7 @@ namespace BackEnd_Aeropuerto.Data
         {
             modelBuilder.Entity<Vuelo>()
                 .HasOne(x => x.Consecutivos)
-                .WithOne()
+                .WithOne(x => x.Vuelos)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vuelo>()
@@ -64,6 +60,22 @@ namespace BackEnd_Aeropuerto.Data
                .WithMany(x => x.Vuelos)
                .HasForeignKey(x => x.EstadoVueloId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Bitacora>()
+                .Property(x => x.FechaHora)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Compra>()
+                .Property(x => x.FechaHora)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Error>()
+                .Property(x => x.FechaHora)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Reserva>()
+                .Property(x => x.FechaHora)
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

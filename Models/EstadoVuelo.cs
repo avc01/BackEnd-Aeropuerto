@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("EstadoVuelos")]
     public class EstadoVuelo
     {
         [Key]
@@ -19,6 +18,6 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
-        public List<Vuelo> Vuelos { get; set; }
+        public ICollection<Vuelo> Vuelos { get; set; }
     }
 }

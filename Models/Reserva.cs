@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Reservas")]
     public class Reserva
     {
         [Key]
         public int ReservaId { get; set; }
 
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime FechaHora { get; set; }
 
         [Required]
         public int NumeroReservacion { get; set; }
 
+        [StringLength(7)]
         [Required]
         public string BookingId { get; set; }
 
@@ -28,12 +28,15 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [ForeignKey("Consecutivos")]
         [Required]
         public int ConsecutivoId { get; set; }
 
+        [ForeignKey("Vuelos")]
         [Required]
         public int VueloId { get; set; }
 
+        [ForeignKey("Usuarios")]
         [Required]
         public int UsuarioId { get; set; }
 

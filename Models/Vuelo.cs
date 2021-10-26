@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Vuelos")]
     public class Vuelo
     {  
         [Key]
@@ -22,15 +21,19 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [ForeignKey("Consecutivos")]
         [Required]
         public int ConsecutivoId { get; set; }
-       
+
+        [ForeignKey("Aerolineas")]
         [Required]
         public int AerolineaId { get; set; }
-       
+
+        [ForeignKey("Puertas")]
         [Required]
         public int PuertaId { get; set; }
-       
+
+        [ForeignKey("EstadoVuelos")]
         [Required]
         public int EstadoVueloId { get; set; }
 

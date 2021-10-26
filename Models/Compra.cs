@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd_Aeropuerto.Models
 {
+    [Table("Compras")]
     public class Compra
     {
         [Key]
         public int CompraId { get; set; }
 
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime FechaHora { get; set; }
 
         [Required]
@@ -22,12 +21,15 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [ForeignKey("Consecutivos")]
         [Required]
         public int ConsecutivoId { get; set; }
 
+        [ForeignKey("Vuelos")]
         [Required]
         public int VueloId { get; set; }
 
+        [ForeignKey("Usuarios")]
         [Required]
         public int UsuarioId { get; set; }
 

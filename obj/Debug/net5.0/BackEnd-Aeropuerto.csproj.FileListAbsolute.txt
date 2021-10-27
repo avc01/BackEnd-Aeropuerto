@@ -57,3 +57,4 @@ C:\Users\Viquez\source\repos\BackEnd-Aeropuerto\obj\Debug\net5.0\BackEnd-Aeropue
 C:\Users\Viquez\source\repos\BackEnd-Aeropuerto\obj\Debug\net5.0\ref\BackEnd-Aeropuerto.dll
 C:\Users\Viquez\source\repos\BackEnd-Aeropuerto\obj\Debug\net5.0\BackEnd-Aeropuerto.pdb
 C:\Users\Viquez\source\repos\BackEnd-Aeropuerto\obj\Debug\net5.0\BackEnd-Aeropuerto.genruntimeconfig.cache
+C:\Users\Viquez\source\repos\BackEnd-Aeropuerto\obj\Debug\net5.0\BackEnd-Aeropuerto.csproj.AssemblyReference.cache

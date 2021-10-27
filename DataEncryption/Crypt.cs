@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace BackEnd_Aeropuerto.DataEncryption
@@ -30,6 +31,51 @@ namespace BackEnd_Aeropuerto.DataEncryption
                 if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
                 {
                     property.SetValue(data, _dataProtector.Protect((string)property.GetValue(data)));
+                }
+            }
+            return data;
+        }
+
+        T ICrypt<T>.DecryptDataOneRow(T data)
+        {
+            Type type = data.GetType();
+
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.GetValue(data) == null)
+                {
+                    continue;
+                }
+
+                if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
+                {
+                    property.SetValue(data, _dataProtector.Unprotect((string)property.GetValue(data)));
+                }
+            }
+            return data;
+        }
+
+        IEnumerable<T> ICrypt<T>.DecryptDataMultipleRows (IEnumerable<T> data)
+        {
+            foreach (T item in data)
+            {
+                Type type = item.GetType();
+
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (PropertyInfo property in properties)
+                {
+                    if (property.GetValue(item) == null)
+                    {
+                        continue;
+                    }
+
+                    if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
+                    {
+                        property.SetValue(item, _dataProtector.Unprotect((string)property.GetValue(item)));
+                    }
                 }
             }
             return data;

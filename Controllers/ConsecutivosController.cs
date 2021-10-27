@@ -28,7 +28,9 @@ namespace BackEnd_Aeropuerto.Controllers
         {
             var resultado = _aeroService.GetAllConsecutivos();
 
-            if (!resultado.Any())
+            var data = _crypt.DecryptDataMultipleRows(resultado);
+
+            if (!data.Any())
             {
                 return NotFound();
             }

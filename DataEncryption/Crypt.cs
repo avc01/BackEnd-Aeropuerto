@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.DataEncryption
 {
@@ -25,12 +22,16 @@ namespace BackEnd_Aeropuerto.DataEncryption
 
             foreach (PropertyInfo property in properties)
             {
+                if (property.GetValue(data) == null)
+                {
+                    continue;
+                }
+
                 if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
                 {
-                    property.SetValue(type, _dataProtector.Protect((byte[])property.GetValue(type, null)));
+                    property.SetValue(data, _dataProtector.Protect((string)property.GetValue(data)));
                 }
             }
-
             return data;
         }
     }

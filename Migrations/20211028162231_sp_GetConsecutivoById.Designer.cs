@@ -4,14 +4,16 @@ using BackEnd_Aeropuerto.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackEnd_Aeropuerto.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211028162231_sp_GetConsecutivoById")]
+    partial class sp_GetConsecutivoById
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,6 +36,9 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AerolineaId");
+
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
 
                     b.ToTable("Aerolineas");
                 });
@@ -67,6 +72,8 @@ namespace BackEnd_Aeropuerto.Migrations
 
                     b.HasKey("BitacoraId");
 
+                    b.HasIndex("UsuarioId");
+
                     b.ToTable("Bitacoras");
                 });
 
@@ -98,6 +105,13 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CompraId");
+
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("VueloId");
 
                     b.ToTable("Compras");
                 });
@@ -190,6 +204,9 @@ namespace BackEnd_Aeropuerto.Migrations
 
                     b.HasKey("PaisId");
 
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
+
                     b.ToTable("Paises");
                 });
 
@@ -211,6 +228,9 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PuertaId");
+
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
 
                     b.ToTable("Puertas");
                 });
@@ -251,6 +271,13 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReservaId");
+
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("VueloId");
 
                     b.ToTable("Reservas");
                 });
@@ -298,6 +325,8 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TarjetaId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Tarjetas");
                 });
@@ -382,6 +411,130 @@ namespace BackEnd_Aeropuerto.Migrations
                     b.ToTable("Vuelos");
                 });
 
+            modelBuilder.Entity("RolUsuario", b =>
+                {
+                    b.Property<int>("RolesRolId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuariosUsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolesRolId", "UsuariosUsuarioId");
+
+                    b.HasIndex("UsuariosUsuarioId");
+
+                    b.ToTable("RolUsuario");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Aerolinea", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
+                        .WithOne("Aerolineas")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Aerolinea", "ConsecutivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consecutivos");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Bitacora", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", "Usuarios")
+                        .WithMany("Bitacoras")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Compra", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
+                        .WithOne("Compras")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Compra", "ConsecutivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", "Usuarios")
+                        .WithMany("Compras")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd_Aeropuerto.Models.Vuelo", "Vuelos")
+                        .WithMany()
+                        .HasForeignKey("VueloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consecutivos");
+
+                    b.Navigation("Usuarios");
+
+                    b.Navigation("Vuelos");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Pais", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
+                        .WithOne("Paises")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Pais", "ConsecutivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consecutivos");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Puerta", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
+                        .WithOne("Puertas")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Puerta", "ConsecutivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consecutivos");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Reserva", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
+                        .WithOne("Reservas")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Reserva", "ConsecutivoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", "Usuarios")
+                        .WithMany("Reservas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd_Aeropuerto.Models.Vuelo", "Vuelos")
+                        .WithMany()
+                        .HasForeignKey("VueloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consecutivos");
+
+                    b.Navigation("Usuarios");
+
+                    b.Navigation("Vuelos");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Tarjeta", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", "Usuarios")
+                        .WithMany("Tarjetas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuarios");
+                });
+
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Vuelo", b =>
                 {
                     b.HasOne("BackEnd_Aeropuerto.Models.Aerolinea", "Aerolineas")
@@ -417,6 +570,21 @@ namespace BackEnd_Aeropuerto.Migrations
                     b.Navigation("Puertas");
                 });
 
+            modelBuilder.Entity("RolUsuario", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Rol", null)
+                        .WithMany()
+                        .HasForeignKey("RolesRolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UsuariosUsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Aerolinea", b =>
                 {
                     b.Navigation("Vuelos");
@@ -424,6 +592,16 @@ namespace BackEnd_Aeropuerto.Migrations
 
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Consecutivo", b =>
                 {
+                    b.Navigation("Aerolineas");
+
+                    b.Navigation("Compras");
+
+                    b.Navigation("Paises");
+
+                    b.Navigation("Puertas");
+
+                    b.Navigation("Reservas");
+
                     b.Navigation("Vuelos");
                 });
 
@@ -435,6 +613,17 @@ namespace BackEnd_Aeropuerto.Migrations
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Puerta", b =>
                 {
                     b.Navigation("Vuelos");
+                });
+
+            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Usuario", b =>
+                {
+                    b.Navigation("Bitacoras");
+
+                    b.Navigation("Compras");
+
+                    b.Navigation("Reservas");
+
+                    b.Navigation("Tarjetas");
                 });
 #pragma warning restore 612, 618
         }

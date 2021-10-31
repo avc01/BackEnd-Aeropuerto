@@ -1,12 +1,9 @@
 ﻿using BackEnd_Aeropuerto.DataEncryption;
-using BackEnd_Aeropuerto.Models;
+using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Controllers
 {
@@ -14,36 +11,43 @@ namespace BackEnd_Aeropuerto.Controllers
     [ApiController]
     public class ConsecutivosController : ControllerBase
     {
-        private readonly IAeropuertoService _aeroService;
-        private readonly ICrypt<Consecutivo> _crypt;
-
-        public ConsecutivosController(IAeropuertoService aeroService, ICrypt<Consecutivo> crypt)
+        private readonly IConsecutivoService _aeroService;
+       
+        public ConsecutivosController(IConsecutivoService aeroService)
         {
             _aeroService = aeroService;
-            _crypt = crypt;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Consecutivo>> GetConsecutivos()
+        public ActionResult<IEnumerable<ConsecutivoDto>> GetConsecutivos()
         {
-            var resultado = _aeroService.GetAllConsecutivos();
+            var result = _aeroService.GetAllConsecutivos();
 
-            var data = _crypt.DecryptDataMultipleRows(resultado);
-
-            if (!data.Any())
+            if (!result.Any())
             {
                 return NotFound();
             }
 
-            return Ok(resultado);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<ConsecutivoDto> GetConsecutivoById([FromRoute]int id) 
+        {
+            var result = _aeroService.GetConsecutivoById(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult CreateConsecutivo([FromBody]Consecutivo consecutivo)
+        public ActionResult CreateConsecutivo([FromBody]ConsecutivoDto consecutivo)
         {
-            var data = _crypt.EncryptData(consecutivo);
-
-            var result = _aeroService.CreateConsecutivo(data);
+            var result = _aeroService.CreateConsecutivo(consecutivo);
 
             if (result > 0)
             {

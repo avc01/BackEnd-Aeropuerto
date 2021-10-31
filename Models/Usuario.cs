@@ -32,14 +32,19 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [NotMapped]
         public ICollection<Compra> Compras { get; set; }
 
+        [NotMapped]
         public ICollection<Reserva> Reservas { get; set; }
 
+        [NotMapped]
         public ICollection<Tarjeta> Tarjetas { get; set; }
 
+        [NotMapped]
         public ICollection<Bitacora> Bitacoras { get; set; }
 
+        [NotMapped]
         public ICollection<Rol> Roles { get; set; }
     }
 }

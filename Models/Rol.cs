@@ -15,6 +15,7 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [NotMapped]
         public ICollection<Usuario> Usuarios { get; set; }
     }
 }

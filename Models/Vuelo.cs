@@ -37,12 +37,16 @@ namespace BackEnd_Aeropuerto.Models
         [Required]
         public int EstadoVueloId { get; set; }
 
+        [NotMapped]
         public Consecutivo Consecutivos { get; set; }
 
+        [NotMapped]
         public Aerolinea Aerolineas { get; set; }
 
+        [NotMapped]
         public Puerta Puertas { get; set; }
 
+        [NotMapped]
         public EstadoVuelo EstadoVuelos { get; set; }
     }
 }

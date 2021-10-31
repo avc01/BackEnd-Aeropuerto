@@ -1,11 +1,8 @@
 ﻿using BackEnd_Aeropuerto.Models;
 using BackEnd_Aeropuerto.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Controllers
 {
@@ -13,9 +10,9 @@ namespace BackEnd_Aeropuerto.Controllers
     [ApiController]
     public class AerolineasController : ControllerBase
     {
-        private readonly IAeropuertoService _aeroService;
+        private readonly IAerolineaService _aeroService;
 
-        public AerolineasController(IAeropuertoService aeroService)
+        public AerolineasController(IAerolineaService aeroService)
         {
             _aeroService = aeroService;
         }

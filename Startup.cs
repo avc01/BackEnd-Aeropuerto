@@ -1,20 +1,14 @@
 using BackEnd_Aeropuerto.Data;
 using BackEnd_Aeropuerto.DataEncryption;
 using BackEnd_Aeropuerto.Repository;
+using BackEnd_Aeropuerto.Repository.Implementation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto
 {
@@ -37,14 +31,22 @@ namespace BackEnd_Aeropuerto
             {
                 services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionDB")));
             }
-            services.AddTransient<IAeropuertoService, AeropuertoService>();
-            services.AddTransient(typeof(ICrypt<>), typeof(Crypt<>));
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IConsecutivoService, ConsecutivoService>();
+            services.AddScoped<IAerolineaService, AerolineaService>();
+            services.AddScoped<IVueloService, VueloService>();
+
+            services.AddScoped(typeof(ICrypt<>), typeof(Crypt<>));
+            services.AddDataProtection();
+
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackEnd_Aeropuerto", Version = "v1" });
             });
-            services.AddDataProtection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

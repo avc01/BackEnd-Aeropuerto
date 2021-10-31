@@ -23,16 +23,22 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
+        [NotMapped]
         public Aerolinea Aerolineas { get; set; }
 
+        [NotMapped]
         public Puerta Puertas { get; set; }
 
+        [NotMapped]
         public Pais Paises { get; set; }
 
+        [NotMapped]
         public Compra Compras { get; set; }
 
+        [NotMapped]
         public Reserva Reservas { get; set; }
 
+        [NotMapped]
         public Vuelo Vuelos { get; set; }
     }
 }

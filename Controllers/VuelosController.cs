@@ -13,9 +13,9 @@ namespace BackEnd_Aeropuerto.Controllers
     [ApiController]
     public class VuelosController : ControllerBase
     {
-        private readonly IAeropuertoService _aeroService;
+        private readonly IVueloService _aeroService;
 
-        public VuelosController(IAeropuertoService aeroService)
+        public VuelosController(IVueloService aeroService)
         {
             _aeroService = aeroService;
         }

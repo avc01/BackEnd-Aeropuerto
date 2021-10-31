@@ -19,8 +19,10 @@ namespace BackEnd_Aeropuerto.Models
         [Required]
         public int ConsecutivoId { get; set; }
 
+        [NotMapped]
         public Consecutivo Consecutivos { get; set; }
 
+        [NotMapped]
         public ICollection<Vuelo> Vuelos { get; set; }
     }
 }

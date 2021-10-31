@@ -18,7 +18,6 @@ namespace BackEnd_Aeropuerto.Models
 
         // Navigation properties
 
-        [NotMapped]
         public ICollection<Vuelo> Vuelos { get; set; }
     }
 }

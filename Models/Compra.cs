@@ -33,13 +33,10 @@ namespace BackEnd_Aeropuerto.Models
         [Required]
         public int UsuarioId { get; set; }
 
-        [NotMapped]
         public Consecutivo Consecutivos { get; set; }
 
-        [NotMapped]
         public Vuelo Vuelos { get; set; }
 
-        [NotMapped]
         public Usuario Usuarios { get; set; }
     }
 }

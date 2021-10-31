@@ -28,7 +28,6 @@ namespace BackEnd_Aeropuerto.Models
         [Required]
         public int UsuarioId { get; set; }
 
-        [NotMapped]
         public Usuario Usuarios { get; set; }
     }
 }

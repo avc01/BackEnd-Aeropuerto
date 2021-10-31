@@ -1,15 +1,13 @@
-﻿using BackEnd_Aeropuerto.Models;
-using System;
+﻿using BackEnd_Aeropuerto.Dtos;
+using BackEnd_Aeropuerto.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Repository
 {
     public interface IAerolineaService
     { 
-        int CreateAerolinea(Aerolinea aerolinea);
+        int CreateAerolinea(AerolineaDto aerolinea);
 
-        IEnumerable<Aerolinea> GetAllAerolineas();
+        IEnumerable<AerolineaDto> GetAllAerolineas();
     }
 }

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using BackEnd_Aeropuerto.Data;
+using BackEnd_Aeropuerto.DataEncryption;
+using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Repository.Implementation
 {
@@ -12,25 +13,39 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICrypt<AerolineaDto> _crypt;
 
-        public AerolineaService(AppDbContext context, IMapper mapper)
+        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaDto> crypt)
         {
             _context = context;
             _mapper = mapper;
+            _crypt = crypt;
         }
 
-        public IEnumerable<Aerolinea> GetAllAerolineas()
+        public IEnumerable<AerolineaDto> GetAllAerolineas()
         {
-            return _context.Aerolineas.ToList();
+            var result = _context.Aerolineas.ToList();
+
+            var resultMapped = _mapper.Map<IEnumerable<AerolineaDto>>(result);
+
+            var resultDecrypted = _crypt.DecryptDataMultipleRows(resultMapped);
+
+            return resultDecrypted;
         }
 
-        public int CreateAerolinea(Aerolinea aerolinea)
+        public int CreateAerolinea(AerolineaDto aerolinea)
         {
             if (aerolinea == null)
             {
                 throw new ArgumentNullException(nameof(aerolinea));
             }
-            _context.Aerolineas.Add(aerolinea);
+
+            var resultEncrypted = _crypt.EncryptData(aerolinea);
+
+            var resultMapped = _mapper.Map<Aerolinea>(resultEncrypted);
+
+            _context.Aerolineas.Add(resultMapped);
+
             return _context.SaveChanges();
         }
     }

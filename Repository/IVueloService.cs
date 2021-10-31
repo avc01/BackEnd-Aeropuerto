@@ -1,15 +1,12 @@
-﻿using BackEnd_Aeropuerto.Models;
-using System;
+﻿using BackEnd_Aeropuerto.Dtos;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Repository
 {
     public interface IVueloService
     {
-        int CreateVuelo(Vuelo vuelo);
+        int CreateVuelo(VueloDto vuelo);
 
-        IEnumerable<Vuelo> GetAllVuelos();
+        IEnumerable<VueloDto> GetAllVuelos();
     }
 }

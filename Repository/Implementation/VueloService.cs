@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using BackEnd_Aeropuerto.Data;
+using BackEnd_Aeropuerto.DataEncryption;
+using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Repository.Implementation
 {
@@ -12,25 +13,39 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICrypt<VueloDto> _crypt;
 
-        public VueloService(AppDbContext context, IMapper mapper)
+        public VueloService(AppDbContext context, IMapper mapper, ICrypt<VueloDto> crypt)
         {
             _context = context;
             _mapper = mapper;
+            _crypt = crypt;
         }
 
-        public IEnumerable<Vuelo> GetAllVuelos()
+        public IEnumerable<VueloDto> GetAllVuelos()
         {
-            return _context.Vuelos.ToList();
+            var result = _context.Vuelos.ToList();
+
+            var resultMapped = _mapper.Map<IEnumerable<VueloDto>>(result);
+
+            var resultDecrypted = _crypt.DecryptDataMultipleRows(resultMapped);
+
+            return resultDecrypted;
         }
 
-        public int CreateVuelo(Vuelo vuelo)
+        public int CreateVuelo(VueloDto vuelo)
         {
             if (vuelo == null)
             {
                 throw new ArgumentNullException(nameof(vuelo));
             }
-            _context.Vuelos.Add(vuelo);
+
+            var resultEncrypted = _crypt.EncryptData(vuelo);
+
+            var resultMapped = _mapper.Map<Vuelo>(resultEncrypted);
+
+            _context.Vuelos.Add(resultMapped);
+
             return _context.SaveChanges();
         }
     }

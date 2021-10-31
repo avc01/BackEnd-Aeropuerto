@@ -1,11 +1,8 @@
-﻿using BackEnd_Aeropuerto.Models;
+﻿using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Controllers
 {
@@ -21,20 +18,20 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Vuelo>> GetVuelos() 
+        public ActionResult<IEnumerable<VueloDto>> GetVuelos() 
         {
-            var resultado = _aeroService.GetAllVuelos();
+            var result = _aeroService.GetAllVuelos();
 
-            if (!resultado.Any())
+            if (!result.Any())
             {
                 return NotFound();
             }
 
-            return Ok(resultado);
+            return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult CreateVuelo([FromBody]Vuelo vuelo)
+        public ActionResult CreateVuelo([FromBody]VueloDto vuelo)
         {
             var result = _aeroService.CreateVuelo(vuelo);
   

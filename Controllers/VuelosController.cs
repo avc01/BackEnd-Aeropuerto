@@ -1,4 +1,5 @@
 ﻿using BackEnd_Aeropuerto.Dtos;
+using BackEnd_Aeropuerto.Dtos.WriteDtos;
 using BackEnd_Aeropuerto.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateVuelo([FromBody]VueloReadDto vuelo)
+        public ActionResult CreateVuelo([FromBody]VueloWriteDto vuelo)
         {
             var result = _aeroService.CreateVuelo(vuelo);
   

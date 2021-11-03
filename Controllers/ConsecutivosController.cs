@@ -1,5 +1,6 @@
 ﻿using BackEnd_Aeropuerto.DataEncryption;
 using BackEnd_Aeropuerto.Dtos;
+using BackEnd_Aeropuerto.Dtos.WriteDtos;
 using BackEnd_Aeropuerto.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateConsecutivo([FromBody]ConsecutivoReadDto consecutivo)
+        public ActionResult CreateConsecutivo([FromBody]ConsecutivoWriteDto consecutivo)
         {
             var result = _aeroService.CreateConsecutivo(consecutivo);
 

@@ -13,27 +13,27 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ICrypt<AerolineaDto> _crypt;
+        private readonly ICrypt<AerolineaReadDto> _crypt;
 
-        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaDto> crypt)
+        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaReadDto> crypt)
         {
             _context = context;
             _mapper = mapper;
             _crypt = crypt;
         }
 
-        public IEnumerable<AerolineaDto> GetAllAerolineas()
+        public IEnumerable<AerolineaReadDto> GetAllAerolineas()
         {
             var result = _context.Aerolineas.ToList();
 
-            var resultMapped = _mapper.Map<IEnumerable<AerolineaDto>>(result);
+            var resultMapped = _mapper.Map<IEnumerable<AerolineaReadDto>>(result);
 
             var resultDecrypted = _crypt.DecryptDataMultipleRows(resultMapped);
 
             return resultDecrypted;
         }
 
-        public int CreateAerolinea(AerolineaDto aerolinea)
+        public int CreateAerolinea(AerolineaReadDto aerolinea)
         {
             if (aerolinea == null)
             {

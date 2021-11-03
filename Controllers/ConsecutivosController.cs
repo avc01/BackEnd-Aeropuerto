@@ -19,7 +19,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ConsecutivoDto>> GetConsecutivos()
+        public ActionResult<IEnumerable<ConsecutivoReadDto>> GetConsecutivos()
         {
             var result = _aeroService.GetAllConsecutivos();
 
@@ -32,7 +32,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ConsecutivoDto> GetConsecutivoById([FromRoute]int id) 
+        public ActionResult<ConsecutivoReadDto> GetConsecutivoById([FromRoute]int id) 
         {
             var result = _aeroService.GetConsecutivoById(id);
 
@@ -45,7 +45,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateConsecutivo([FromBody]ConsecutivoDto consecutivo)
+        public ActionResult CreateConsecutivo([FromBody]ConsecutivoReadDto consecutivo)
         {
             var result = _aeroService.CreateConsecutivo(consecutivo);
 

@@ -6,8 +6,8 @@ namespace BackEnd_Aeropuerto.Repository
 {
     public interface IAerolineaService
     { 
-        int CreateAerolinea(AerolineaDto aerolinea);
+        int CreateAerolinea(AerolineaReadDto aerolinea);
 
-        IEnumerable<AerolineaDto> GetAllAerolineas();
+        IEnumerable<AerolineaReadDto> GetAllAerolineas();
     }
 }

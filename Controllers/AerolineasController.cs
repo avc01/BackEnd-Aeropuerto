@@ -19,7 +19,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AerolineaDto>> GetAerolineas()
+        public ActionResult<IEnumerable<AerolineaReadDto>> GetAerolineas()
         {
             var result = _aeroService.GetAllAerolineas();
 
@@ -32,7 +32,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateAerolinea([FromBody]AerolineaDto aerolinea)
+        public ActionResult CreateAerolinea([FromBody]AerolineaReadDto aerolinea)
         {
             var result = _aeroService.CreateAerolinea(aerolinea);
 

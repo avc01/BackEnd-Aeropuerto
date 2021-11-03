@@ -1,6 +1,6 @@
 ﻿namespace BackEnd_Aeropuerto.Dtos
 {
-    public class PaisDto
+    public class PaisReadDto
     {
         public int PaisId { get; set; }
 

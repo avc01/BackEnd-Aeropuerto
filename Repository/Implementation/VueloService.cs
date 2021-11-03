@@ -13,27 +13,27 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ICrypt<VueloDto> _crypt;
+        private readonly ICrypt<VueloReadDto> _crypt;
 
-        public VueloService(AppDbContext context, IMapper mapper, ICrypt<VueloDto> crypt)
+        public VueloService(AppDbContext context, IMapper mapper, ICrypt<VueloReadDto> crypt)
         {
             _context = context;
             _mapper = mapper;
             _crypt = crypt;
         }
 
-        public IEnumerable<VueloDto> GetAllVuelos()
+        public IEnumerable<VueloReadDto> GetAllVuelos()
         {
             var result = _context.Vuelos.ToList();
 
-            var resultMapped = _mapper.Map<IEnumerable<VueloDto>>(result);
+            var resultMapped = _mapper.Map<IEnumerable<VueloReadDto>>(result);
 
             var resultDecrypted = _crypt.DecryptDataMultipleRows(resultMapped);
 
             return resultDecrypted;
         }
 
-        public int CreateVuelo(VueloDto vuelo)
+        public int CreateVuelo(VueloReadDto vuelo)
         {
             if (vuelo == null)
             {

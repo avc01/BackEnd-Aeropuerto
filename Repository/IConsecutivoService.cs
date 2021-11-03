@@ -6,10 +6,10 @@ namespace BackEnd_Aeropuerto.Repository
 {
     public interface IConsecutivoService
     {
-        int CreateConsecutivo(ConsecutivoDto consecutivo);
+        int CreateConsecutivo(ConsecutivoReadDto consecutivo);
 
-        IEnumerable<ConsecutivoDto> GetAllConsecutivos();
+        IEnumerable<ConsecutivoReadDto> GetAllConsecutivos();
 
-        ConsecutivoDto GetConsecutivoById(int id);
+        ConsecutivoReadDto GetConsecutivoById(int id);
     }
 }

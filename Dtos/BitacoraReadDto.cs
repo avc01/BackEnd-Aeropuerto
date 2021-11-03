@@ -2,7 +2,7 @@
 
 namespace BackEnd_Aeropuerto.Dtos
 {
-    public class BitacoraDto
+    public class BitacoraReadDto
     {
         public int BitacoraId { get; set; }
 

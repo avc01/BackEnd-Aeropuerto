@@ -14,41 +14,41 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ICrypt<ConsecutivoDto> _crypt;
+        private readonly ICrypt<ConsecutivoReadDto> _crypt;
 
-        public ConsecutivoService(AppDbContext context, IMapper mapper, ICrypt<ConsecutivoDto> crypt)
+        public ConsecutivoService(AppDbContext context, IMapper mapper, ICrypt<ConsecutivoReadDto> crypt)
         {
             _context = context;
             _mapper = mapper;
             _crypt = crypt;
         }
 
-        public IEnumerable<ConsecutivoDto> GetAllConsecutivos()
+        public IEnumerable<ConsecutivoReadDto> GetAllConsecutivos()
         {
             var result = _context.Consecutivos.ToList();
 
-            var resultMapped = _mapper.Map<IEnumerable<ConsecutivoDto>>(result);
+            var resultMapped = _mapper.Map<IEnumerable<ConsecutivoReadDto>>(result);
 
             var resultDecrypted = _crypt.DecryptDataMultipleRows(resultMapped);
 
             return resultDecrypted;
         }
 
-        public ConsecutivoDto GetConsecutivoById(int id) 
+        public ConsecutivoReadDto GetConsecutivoById(int id) 
         {
             var result = _context.Consecutivos
                 .FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivoById {id}")
                 .ToList()
                 .FirstOrDefault();
 
-            var resultMapped = _mapper.Map<ConsecutivoDto>(result);
+            var resultMapped = _mapper.Map<ConsecutivoReadDto>(result);
 
             var resultDecrypted = _crypt.DecryptDataOneRow(resultMapped);
 
             return resultDecrypted;
         }
 
-        public int CreateConsecutivo(ConsecutivoDto consecutivo)
+        public int CreateConsecutivo(ConsecutivoReadDto consecutivo)
         {
             if (consecutivo == null)
             {

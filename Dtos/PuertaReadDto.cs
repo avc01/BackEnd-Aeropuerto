@@ -1,6 +1,6 @@
 ﻿namespace BackEnd_Aeropuerto.Dtos
 {
-    public class PuertaDto
+    public class PuertaReadDto
     {
         public int PuertaId { get; set; }
 

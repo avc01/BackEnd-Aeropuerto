@@ -18,7 +18,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<VueloDto>> GetVuelos() 
+        public ActionResult<IEnumerable<VueloReadDto>> GetVuelos() 
         {
             var result = _aeroService.GetAllVuelos();
 
@@ -31,7 +31,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateVuelo([FromBody]VueloDto vuelo)
+        public ActionResult CreateVuelo([FromBody]VueloReadDto vuelo)
         {
             var result = _aeroService.CreateVuelo(vuelo);
   

@@ -2,7 +2,7 @@
 
 namespace BackEnd_Aeropuerto.Dtos
 {
-    public class CompraDto
+    public class CompraReadDto
     {
         public int CompraId { get; set; }
 

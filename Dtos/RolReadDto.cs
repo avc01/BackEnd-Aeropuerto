@@ -1,6 +1,6 @@
 ﻿namespace BackEnd_Aeropuerto.Dtos
 {
-    public class RolDto
+    public class RolReadDto
     {
         public int RolId { get; set; }
 

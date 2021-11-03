@@ -8,18 +8,18 @@ namespace BackEnd_Aeropuerto.MapperProfiles
     {
         public AppProfile()
         {
-            CreateMap<Aerolinea, AerolineaDto>().ReverseMap();
-            CreateMap<Bitacora, BitacoraDto>().ReverseMap();
-            CreateMap<Compra, CompraDto>().ReverseMap();
-            CreateMap<Consecutivo, ConsecutivoDto>().ReverseMap();
-            CreateMap<EstadoVuelo, EstadoVueloDto>().ReverseMap();
-            CreateMap<Pais, PaisDto>().ReverseMap();
-            CreateMap<Puerta, PuertaDto>().ReverseMap();
-            CreateMap<Reserva, ReservaDto>().ReverseMap();
-            CreateMap<Rol, RolDto>().ReverseMap();
-            CreateMap<Tarjeta, TarjetaDto>().ReverseMap();
-            CreateMap<Usuario, UsuarioDto>().ReverseMap();
-            CreateMap<Vuelo, VueloDto>().ReverseMap();
+            CreateMap<Aerolinea, AerolineaReadDto>().ReverseMap();
+            CreateMap<Bitacora, BitacoraReadDto>().ReverseMap();
+            CreateMap<Compra, CompraReadDto>().ReverseMap();
+            CreateMap<Consecutivo, ConsecutivoReadDto>().ReverseMap();
+            CreateMap<EstadoVuelo, EstadoVueloReadDto>().ReverseMap();
+            CreateMap<Pais, PaisReadDto>().ReverseMap();
+            CreateMap<Puerta, PuertaReadDto>().ReverseMap();
+            CreateMap<Reserva, ReservaReadDto>().ReverseMap();
+            CreateMap<Rol, RolReadDto>().ReverseMap();
+            CreateMap<Tarjeta, TarjetaReadDto>().ReverseMap();
+            CreateMap<Usuario, UsuarioReadDto>().ReverseMap();
+            CreateMap<Vuelo, VueloReadDto>().ReverseMap();
         }
     }
 }

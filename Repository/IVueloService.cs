@@ -5,8 +5,8 @@ namespace BackEnd_Aeropuerto.Repository
 {
     public interface IVueloService
     {
-        int CreateVuelo(VueloDto vuelo);
+        int CreateVuelo(VueloReadDto vuelo);
 
-        IEnumerable<VueloDto> GetAllVuelos();
+        IEnumerable<VueloReadDto> GetAllVuelos();
     }
 }

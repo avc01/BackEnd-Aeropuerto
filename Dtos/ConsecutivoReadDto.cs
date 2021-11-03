@@ -1,6 +1,6 @@
 ﻿namespace BackEnd_Aeropuerto.Dtos
 {
-    public class ConsecutivoDto
+    public class ConsecutivoReadDto
     {
         public int ConsecutivoId { get; set; }
 

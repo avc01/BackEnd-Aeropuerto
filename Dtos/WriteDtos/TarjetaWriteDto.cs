@@ -1,21 +1,27 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace BackEnd_Aeropuerto.Dtos
+namespace BackEnd_Aeropuerto.Dtos.WriteDtos
 {
-    public class TarjetaDto
+    public class TarjetaWriteDto
     {
-        public int TarjetaId { get; set; }
-
+        [CreditCard]
+        [Required]
         public int NumeroTarjeta { get; set; }
 
+        [Required]
         public string Marca { get; set; }
 
+        [Required]
         public string Tipo { get; set; }
 
+        [Required]
         public int CodigoTarjeta { get; set; }
 
+        [Required]
         public DateTime FechaExp { get; set; }
 
+        [Required]
         public int UsuarioId { get; set; }
     }
 }

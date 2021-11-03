@@ -1,6 +1,6 @@
 ﻿namespace BackEnd_Aeropuerto.Dtos
 {
-    public class AerolineaDto
+    public class AerolineaReadDto
     {
         public int AerolineaId { get; set; }
 

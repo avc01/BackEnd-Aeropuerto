@@ -21,6 +21,8 @@ namespace BackEnd_Aeropuerto.Models
 
         public Consecutivo Consecutivos { get; set; }
 
+
+
         public ICollection<Vuelo> Vuelos { get; set; }
     }
 }

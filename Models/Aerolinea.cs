@@ -25,6 +25,12 @@ namespace BackEnd_Aeropuerto.Models
 
 
 
+
+
+
+
+
+
         public ICollection<Vuelo> Vuelos { get; set; }
     }
 }

@@ -28,7 +28,8 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
         public IEnumerable<ConsecutivoReadDto> GetAllConsecutivos()
         {
-            var result = _context.Consecutivos.ToList();
+            var result = _context.Consecutivos.FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivos")
+                .ToList();
 
             var resultMapped = _mapper.Map<IEnumerable<ConsecutivoReadDto>>(result);
 

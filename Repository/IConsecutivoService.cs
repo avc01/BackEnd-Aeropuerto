@@ -11,5 +11,7 @@ namespace BackEnd_Aeropuerto.Repository
         IEnumerable<ConsecutivoReadDto> GetAllConsecutivos();
 
         ConsecutivoReadDto GetConsecutivoById(int id);
+
+        int DeleteConsecutivoById(int id);
     }
 }

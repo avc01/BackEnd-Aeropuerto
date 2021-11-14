@@ -7,5 +7,7 @@
         public string Nombre { get; set; }
 
         public int ConsecutivoId { get; set; }
+
+        public string? Consecutivo { get; set; }
     }
 }

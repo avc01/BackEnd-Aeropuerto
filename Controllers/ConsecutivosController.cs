@@ -57,5 +57,18 @@ namespace BackEnd_Aeropuerto.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteConsecutivoById([FromRoute]int id) 
+        {
+            var result = _aeroService.DeleteConsecutivoById(id);
+
+            if (result > 0)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }

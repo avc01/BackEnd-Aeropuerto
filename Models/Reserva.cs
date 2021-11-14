@@ -40,6 +40,8 @@ namespace BackEnd_Aeropuerto.Models
         [Required]
         public int UsuarioId { get; set; }
 
+        public string? Consecutivo { get; set; }
+
         public Consecutivo Consecutivos { get; set; }
 
         public Vuelo Vuelos { get; set; }

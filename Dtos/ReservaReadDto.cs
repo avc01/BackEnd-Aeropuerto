@@ -21,5 +21,7 @@ namespace BackEnd_Aeropuerto.Dtos
         public int VueloId { get; set; }
 
         public int UsuarioId { get; set; }
+
+        public string? Consecutivo { get; set; }
     }
 }

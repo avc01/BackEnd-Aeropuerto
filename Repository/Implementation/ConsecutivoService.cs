@@ -31,6 +31,11 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
             var result = _context.Consecutivos.FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivos")
                 .ToList();
 
+            if (result == null)
+            {
+                return null;
+            }
+
             var resultMapped = _mapper.Map<IEnumerable<ConsecutivoReadDto>>(result);
 
             var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
@@ -44,6 +49,11 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
                 .FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivoById {id}")
                 .ToList()
                 .FirstOrDefault();
+
+            if (result == null)
+            {
+                return null;
+            }
 
             var resultMapped = _mapper.Map<ConsecutivoReadDto>(result);
 
@@ -63,9 +73,28 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
             var resultMapped = _mapper.Map<Consecutivo>(resultEncrypted);
 
-            _context.Consecutivos.Add(resultMapped);
+            try
+            {
+                _context.Database.ExecuteSqlInterpolated($"sp_CreateConsecutivo {resultMapped.Descripcion}, {resultMapped.NumeroConsecutivo}, {resultMapped.Prefijo}, {resultMapped.RangoInicial}, {resultMapped.RangoFinal}");
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
 
-            return _context.SaveChanges();
+        public int DeleteConsecutivoById(int id) 
+        {
+            try
+            {
+                _context.Database.ExecuteSqlInterpolated($"sp_DeleteConsecutivoById {id}");
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
     }
 }

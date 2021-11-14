@@ -9,5 +9,7 @@
         public string Detalle { get; set; }
 
         public int ConsecutivoId { get; set; }
+
+        public string? Consecutivo { get; set; }
     }
 }

@@ -9,5 +9,9 @@ namespace BackEnd_Aeropuerto.Repository
         int CreateAerolinea(AerolineaWriteDto aerolinea);
 
         IEnumerable<AerolineaReadDto> GetAllAerolineas();
+
+        AerolineaReadDto GetAerolineaById(int id);
+
+        int DeleteAerolineaById(int id);
     }
 }

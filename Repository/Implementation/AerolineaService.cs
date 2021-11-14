@@ -4,6 +4,7 @@ using BackEnd_Aeropuerto.DataEncryption;
 using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Dtos.WriteDtos;
 using BackEnd_Aeropuerto.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +17,49 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly IMapper _mapper;
         private readonly ICrypt<AerolineaReadDto> _cryptRead;
         private readonly ICrypt<AerolineaWriteDto> _cryptWrite;
+        private readonly IConsecutivoService _consecutivoService;
 
-        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaReadDto> cryptRead, ICrypt<AerolineaWriteDto> cryptWrite)
+        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaReadDto> cryptRead, ICrypt<AerolineaWriteDto> cryptWrite, IConsecutivoService consecutivoService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
+            _consecutivoService = consecutivoService;
         }
 
         public IEnumerable<AerolineaReadDto> GetAllAerolineas()
         {
-            var result = _context.Aerolineas.ToList();
+            var result = _context.Aerolineas.FromSqlInterpolated<Aerolinea>($"sp_GetAerolineas")
+               .ToList();
+
+            if (result == null)
+            {
+                return null;
+            }
 
             var resultMapped = _mapper.Map<IEnumerable<AerolineaReadDto>>(result);
 
             var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
+
+            return resultDecrypted;
+        }
+
+        public AerolineaReadDto GetAerolineaById(int id)
+        {
+            var result = _context.Aerolineas
+                .FromSqlInterpolated<Aerolinea>($"sp_GetAerolineaById {id}")
+                .ToList()
+                .FirstOrDefault();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            var resultMapped = _mapper.Map<AerolineaReadDto>(result);
+
+            var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
 
             return resultDecrypted;
         }
@@ -47,9 +75,32 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
             var resultMapped = _mapper.Map<Aerolinea>(resultEncrypted);
 
-            _context.Aerolineas.Add(resultMapped);
+            try
+            {
+                var result = _consecutivoService.GetConsecutivoById(resultMapped.ConsecutivoId);
 
-            return _context.SaveChanges();
+                _context.Database.ExecuteSqlInterpolated($"sp_CreateAerolinea {resultMapped.Nombre}, {resultMapped.ConsecutivoId}, { (result != null ? _cryptWrite.EncryptSingleString($"{result.Prefijo}-{result.NumeroConsecutivo}"):null) }");
+
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int DeleteAerolineaById(int id)
+        {
+            try
+            {
+                _context.Database.ExecuteSqlInterpolated($"sp_DeleteAerolineaById {id}");
+
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
     }
 }

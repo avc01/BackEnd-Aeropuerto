@@ -80,5 +80,10 @@ namespace BackEnd_Aeropuerto.DataEncryption
             }
             return data;
         }
+
+        public string EncryptSingleString(string value) 
+        {
+            return _dataProtector.Protect(value);
+        }
     }
 }

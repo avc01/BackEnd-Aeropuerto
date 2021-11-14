@@ -12,5 +12,7 @@ namespace BackEnd_Aeropuerto.DataEncryption
         T DecryptDataOneRow(T data);
 
         IEnumerable<T> DecryptDataMultipleRows(IEnumerable<T> data);
+
+        string EncryptSingleString(string value);
     }
 }

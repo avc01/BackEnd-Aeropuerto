@@ -76,6 +76,7 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
             try
             {
                 _context.Database.ExecuteSqlInterpolated($"sp_CreateConsecutivo {resultMapped.Descripcion}, {resultMapped.NumeroConsecutivo}, {resultMapped.Prefijo}, {resultMapped.RangoInicial}, {resultMapped.RangoFinal}");
+
                 return 1;
             }
             catch (Exception)
@@ -89,6 +90,7 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
             try
             {
                 _context.Database.ExecuteSqlInterpolated($"sp_DeleteConsecutivoById {id}");
+
                 return 1;
             }
             catch (Exception)

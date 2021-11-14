@@ -32,6 +32,19 @@ namespace BackEnd_Aeropuerto.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<IEnumerable<AerolineaReadDto>> GetAerolineaById(int id)
+        {
+            var result = _aeroService.GetAerolineaById(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public ActionResult CreateAerolinea([FromBody]AerolineaWriteDto aerolinea)
         {
@@ -40,6 +53,19 @@ namespace BackEnd_Aeropuerto.Controllers
             if (result > 0)
             {
                 return Created("api/CreateAerolinea", aerolinea);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteAerolineaById([FromRoute] int id)
+        {
+            var result = _aeroService.DeleteAerolineaById(id);
+
+            if (result > 0)
+            {
+                return Ok();
             }
 
             return BadRequest();

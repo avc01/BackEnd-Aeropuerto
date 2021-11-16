@@ -9,5 +9,9 @@ namespace BackEnd_Aeropuerto.Repository
         int CreateVuelo(VueloWriteDto vuelo);
 
         IEnumerable<VueloReadDto> GetAllVuelos();
+
+        VueloReadDto GetVueloById(int id);
+
+        int DeleteVueloById(int id);
     }
 }

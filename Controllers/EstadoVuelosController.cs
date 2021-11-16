@@ -1,27 +1,30 @@
 ﻿using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Dtos.WriteDtos;
 using BackEnd_Aeropuerto.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VuelosController : ControllerBase
+    public class EstadoVuelosController : ControllerBase
     {
-        private readonly IVueloService _aeroService;
+        private readonly IEstadoVueloService _aeroService;
 
-        public VuelosController(IVueloService aeroService)
+        public EstadoVuelosController(IEstadoVueloService aeroService)
         {
             _aeroService = aeroService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<VueloReadDto>> GetVuelos()
+        public ActionResult<IEnumerable<EstadoVueloReadDto>> GetEstadoVuelos()
         {
-            var result = _aeroService.GetAllVuelos();
+            var result = _aeroService.GetAllEstadoVuelos();
 
             if (!result.Any())
             {
@@ -32,9 +35,9 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<VueloReadDto>> GetVueloById([FromRoute]int id)
+        public ActionResult<IEnumerable<EstadoVueloReadDto>> GetEstadoVueloById([FromRoute]int id)
         {
-            var result = _aeroService.GetVueloById(id);
+            var result = _aeroService.GetEstadoVueloById(id);
 
             if (result == null)
             {
@@ -45,22 +48,22 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateVuelo([FromBody]VueloWriteDto vuelo)
+        public ActionResult CreateEstadoVuelo([FromBody]EstadoVueloWriteDto estadoVuelo)
         {
-            var result = _aeroService.CreateVuelo(vuelo);
-  
+            var result = _aeroService.CreateEstadoVuelo(estadoVuelo);
+
             if (result > 0)
             {
-                return Created("api/CreateVuelo", vuelo);
+                return Created("api/CreateEstadoVuelo", estadoVuelo);
             }
 
             return BadRequest();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteVueloById([FromRoute]int id)
+        public ActionResult DeleteEstadoVueloById([FromRoute]int id)
         {
-            var result = _aeroService.DeleteVueloById(id);
+            var result = _aeroService.DeleteEstadoVueloById(id);
 
             if (result > 0)
             {

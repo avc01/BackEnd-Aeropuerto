@@ -35,7 +35,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<PuertaReadDto>> GetPuertaById([FromRoute] int id)
+        public ActionResult<PuertaReadDto> GetPuertaById([FromRoute] int id)
         {
             var result = _aeroService.GetPuertaById(id);
 

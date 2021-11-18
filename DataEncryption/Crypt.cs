@@ -28,7 +28,7 @@ namespace BackEnd_Aeropuerto.DataEncryption
                     continue;
                 }
 
-                if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
+                if (property.PropertyType == typeof(string))
                 {
                     property.SetValue(data, _dataProtector.Protect((string)property.GetValue(data)));
                 }
@@ -49,7 +49,7 @@ namespace BackEnd_Aeropuerto.DataEncryption
                     continue;
                 }
 
-                if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
+                if (property.PropertyType == typeof(string))
                 {
                     property.SetValue(data, _dataProtector.Unprotect((string)property.GetValue(data)));
                 }
@@ -72,7 +72,7 @@ namespace BackEnd_Aeropuerto.DataEncryption
                         continue;
                     }
 
-                    if (property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime))
+                    if (property.PropertyType == typeof(string))
                     {
                         property.SetValue(item, _dataProtector.Unprotect((string)property.GetValue(item)));
                     }

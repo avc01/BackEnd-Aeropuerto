@@ -10,8 +10,7 @@ namespace BackEnd_Aeropuerto.Models
         [Key]
         public int ReservaId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime FechaHora { get; set; }
+        public string FechaHora { get; set; }
 
         [Required]
         public int NumeroReservacion { get; set; }

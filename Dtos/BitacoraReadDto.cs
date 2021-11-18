@@ -6,7 +6,7 @@ namespace BackEnd_Aeropuerto.Dtos
     {
         public int BitacoraId { get; set; }
 
-        public DateTime FechaHora { get; set; }
+        public string FechaHora { get; set; }
 
         public string Tipo { get; set; }
 

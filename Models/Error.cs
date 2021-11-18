@@ -10,8 +10,7 @@ namespace BackEnd_Aeropuerto.Models
         [Key]
         public int ErrorId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime FechaHora { get; set; }
+        public string FechaHora { get; set; }
 
         [Required]
         public int Numero { get; set; }

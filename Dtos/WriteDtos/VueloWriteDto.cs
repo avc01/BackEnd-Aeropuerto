@@ -12,7 +12,7 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
         public string Destino { get; set; }
 
         [Required]
-        public DateTime FechaHora { get; set; }
+        public string FechaHora { get; set; }
 
         [Required]
         public int ConsecutivoId { get; set; }

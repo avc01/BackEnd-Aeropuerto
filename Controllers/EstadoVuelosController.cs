@@ -35,7 +35,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<EstadoVueloReadDto>> GetEstadoVueloById([FromRoute]int id)
+        public ActionResult<EstadoVueloReadDto> GetEstadoVueloById([FromRoute]int id)
         {
             var result = _aeroService.GetEstadoVueloById(id);
 

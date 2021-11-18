@@ -19,7 +19,10 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
         public int CodigoTarjeta { get; set; }
 
         [Required]
-        public DateTime FechaExp { get; set; }
+        public string MesExp { get; set; }
+
+        [Required]
+        public string AnoExp { get; set; }
 
         [Required]
         public int UsuarioId { get; set; }

@@ -33,7 +33,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<AerolineaReadDto>> GetAerolineaById(int id)
+        public ActionResult<AerolineaReadDto> GetAerolineaById(int id)
         {
             var result = _aeroService.GetAerolineaById(id);
 

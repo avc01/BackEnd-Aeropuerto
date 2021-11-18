@@ -60,22 +60,6 @@ namespace BackEnd_Aeropuerto.Data
                .WithMany(x => x.Vuelos)
                .HasForeignKey(x => x.EstadoVueloId)
                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Bitacora>()
-                .Property(x => x.FechaHora)
-                .HasDefaultValueSql("GETDATE()");
-
-            modelBuilder.Entity<Compra>()
-                .Property(x => x.FechaHora)
-                .HasDefaultValueSql("GETDATE()");
-
-            modelBuilder.Entity<Error>()
-                .Property(x => x.FechaHora)
-                .HasDefaultValueSql("GETDATE()");
-
-            modelBuilder.Entity<Reserva>()
-                .Property(x => x.FechaHora)
-                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

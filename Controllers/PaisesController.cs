@@ -1,27 +1,30 @@
 ﻿using BackEnd_Aeropuerto.Dtos;
 using BackEnd_Aeropuerto.Dtos.WriteDtos;
 using BackEnd_Aeropuerto.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VuelosController : ControllerBase
+    public class PaisesController : ControllerBase
     {
-        private readonly IVueloService _aeroService;
+        private readonly IPaisService _aeroService;
 
-        public VuelosController(IVueloService aeroService)
+        public PaisesController(IPaisService aeroService)
         {
             _aeroService = aeroService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<VueloReadDto>> GetVuelos()
+        public ActionResult<IEnumerable<PaisReadDto>> GetPaises()
         {
-            var result = _aeroService.GetAllVuelos();
+            var result = _aeroService.GetAllPaises();
 
             if (!result.Any())
             {
@@ -32,9 +35,9 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<VueloReadDto> GetVueloById([FromRoute]int id)
+        public ActionResult<PaisReadDto> GetPaisById([FromRoute] int id)
         {
-            var result = _aeroService.GetVueloById(id);
+            var result = _aeroService.GetPaisById(id);
 
             if (result == null)
             {
@@ -45,22 +48,22 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateVuelo([FromBody]VueloWriteDto vuelo)
+        public ActionResult CreatePais([FromBody] PaisWriteDto pais)
         {
-            var result = _aeroService.CreateVuelo(vuelo);
-  
+            var result = _aeroService.CreatePais(pais);
+
             if (result > 0)
             {
-                return Created("api/CreateVuelo", vuelo);
+                return Created("api/CreatePais", pais);
             }
 
             return BadRequest();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteVueloById([FromRoute]int id)
+        public ActionResult DeletePaisById([FromRoute] int id)
         {
-            var result = _aeroService.DeleteVueloById(id);
+            var result = _aeroService.DeletePaisById(id);
 
             if (result > 0)
             {

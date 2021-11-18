@@ -17,7 +17,7 @@ namespace BackEnd_Aeropuerto.Models
         public string Destino { get; set; }
 
         [Required]
-        public DateTime FechaHora { get; set; }
+        public string FechaHora { get; set; }
 
         // Navigation properties
 

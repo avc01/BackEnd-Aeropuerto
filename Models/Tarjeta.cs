@@ -24,7 +24,10 @@ namespace BackEnd_Aeropuerto.Models
         public int CodigoTarjeta { get; set; }
 
         [Required]
-        public DateTime FechaExp { get; set; }
+        public string MesExp { get; set; }
+
+        [Required]
+        public string AnoExp { get; set; }
 
         // Navigation properties
 

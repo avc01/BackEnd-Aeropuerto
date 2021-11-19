@@ -17,13 +17,15 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly IMapper _mapper;
         private readonly ICrypt<ConsecutivoReadDto> _cryptRead;
         private readonly ICrypt<ConsecutivoWriteDto> _cryptWrite;
+        private readonly IErrorService _errorService;
 
-        public ConsecutivoService(AppDbContext context, IMapper mapper, ICrypt<ConsecutivoReadDto> cryptRead, ICrypt<ConsecutivoWriteDto> cryptWrite)
+        public ConsecutivoService(AppDbContext context, IMapper mapper, ICrypt<ConsecutivoReadDto> cryptRead, ICrypt<ConsecutivoWriteDto> cryptWrite, IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
+            _errorService = errorService;
         }
 
         public IEnumerable<ConsecutivoReadDto> GetAllConsecutivos()
@@ -79,8 +81,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -93,8 +97,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }

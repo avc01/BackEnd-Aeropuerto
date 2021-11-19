@@ -12,8 +12,7 @@ namespace BackEnd_Aeropuerto.Models
 
         public string FechaHora { get; set; }
 
-        [Required]
-        public int Numero { get; set; }
+        public int? Numero { get; set; }
 
         [Required]
         public string Mensaje { get; set; }

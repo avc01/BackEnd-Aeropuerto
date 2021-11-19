@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +23,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet]
+        [Description("Busca todos los usuarios")]
         public ActionResult<IEnumerable<UsuarioReadDto>> GetUsuarios()
         {
             var result = _aeroService.GetAllUsuarios();
@@ -35,6 +37,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpGet("{id}")]
+        [Description("Busca un usuario mediante id")]
         public ActionResult<UsuarioReadDto> GetUsuarioById([FromRoute] int id)
         {
             var result = _aeroService.GetUsuarioById(id);
@@ -48,6 +51,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost]
+        [Description("Crea un usuario")]
         public ActionResult CreateUsuario([FromBody] UsuarioWriteDto usuario)
         {
             var result = _aeroService.CreateUsuario(usuario);
@@ -61,6 +65,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Description("Elimina un usuario mediante id")]
         public ActionResult DeleteUsuarioById([FromRoute] int id)
         {
             var result = _aeroService.DeleteUsuarioById(id);
@@ -74,7 +79,8 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPut]
-        public ActionResult ChangePassword([FromRoute]int id, [FromRoute]string newPassword) 
+        [Description("Cambia la password del usuario")]
+        public ActionResult ChangePassword(int id, string newPassword) 
         {
             var result = _aeroService.ChangePassword(id, newPassword);
 

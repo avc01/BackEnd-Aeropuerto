@@ -18,14 +18,16 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly ICrypt<AerolineaReadDto> _cryptRead;
         private readonly ICrypt<AerolineaWriteDto> _cryptWrite;
         private readonly IConsecutivoService _consecutivoService;
+        private readonly IErrorService _errorService;
 
-        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaReadDto> cryptRead, ICrypt<AerolineaWriteDto> cryptWrite, IConsecutivoService consecutivoService)
+        public AerolineaService(AppDbContext context, IMapper mapper, ICrypt<AerolineaReadDto> cryptRead, ICrypt<AerolineaWriteDto> cryptWrite, IConsecutivoService consecutivoService, IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
             _consecutivoService = consecutivoService;
+            _errorService = errorService;
         }
 
         public IEnumerable<AerolineaReadDto> GetAllAerolineas()
@@ -83,8 +85,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -97,8 +101,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message});
+
                 return 0;
             }
         }

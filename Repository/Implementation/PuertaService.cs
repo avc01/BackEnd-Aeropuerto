@@ -19,14 +19,16 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly ICrypt<PuertaReadDto> _cryptRead;
         private readonly ICrypt<PuertaWriteDto> _cryptWrite;
         private readonly IConsecutivoService _consecutivoService;
+        private readonly IErrorService _errorService;
 
-        public PuertaService(AppDbContext context, IMapper mapper, ICrypt<PuertaReadDto> cryptRead, ICrypt<PuertaWriteDto> cryptWrite, IConsecutivoService consecutivoService)
+        public PuertaService(AppDbContext context, IMapper mapper, ICrypt<PuertaReadDto> cryptRead, ICrypt<PuertaWriteDto> cryptWrite, IConsecutivoService consecutivoService, IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
             _consecutivoService = consecutivoService;
+            _errorService = errorService;
         }
 
         public int CreatePuerta(PuertaWriteDto puerta)
@@ -48,8 +50,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -62,8 +66,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -102,6 +108,23 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
             var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
 
             return resultDecrypted;
+        }
+
+        public IEnumerable<PuertaReadDto> GetPuertasActivas(string detalle)
+        {
+            var result = _context.Puertas.FromSqlInterpolated<Puerta>($"sp_GetPuertas")
+                .ToList();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            var resultMapped = _mapper.Map<IEnumerable<PuertaReadDto>>(result);
+
+            var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
+
+            return resultDecrypted.Where(x => x.Detalle == detalle);
         }
     }
 }

@@ -18,24 +18,31 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly IMapper _mapper;
         private readonly ICrypt<UsuarioReadDto> _cryptRead;
         private readonly ICrypt<UsuarioWriteDto> _cryptWrite;
+        private readonly IErrorService _errorService;
 
-        public UsuarioService(AppDbContext context, IMapper mapper, ICrypt<UsuarioReadDto> cryptRead, ICrypt<UsuarioWriteDto> cryptWrite)
+        public UsuarioService(AppDbContext context, IMapper mapper, ICrypt<UsuarioReadDto> cryptRead, ICrypt<UsuarioWriteDto> cryptWrite, IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
+            _errorService = errorService;
         }
 
         public int ChangePassword(int id, string newPassword)
         {
             try
             {
-                _context.Usuarios.FromSqlInterpolated<Usuario>($"sp_ChangePassword {id}, {newPassword}");
+                var resultEncrypted = _cryptWrite.EncryptSingleString(newPassword);
+
+                _context.Database.ExecuteSqlInterpolated($"sp_ChangePassword {id}, {resultEncrypted}");
+
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -57,8 +64,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -71,8 +80,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }

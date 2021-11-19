@@ -8,7 +8,7 @@ namespace BackEnd_Aeropuerto.Dtos
 
         public string FechaHora { get; set; }
 
-        public int Numero { get; set; }
+        public int? Numero { get; set; }
 
         public string Mensaje { get; set; }
     }

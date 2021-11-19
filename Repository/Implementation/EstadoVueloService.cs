@@ -17,13 +17,15 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly IMapper _mapper;
         private readonly ICrypt<EstadoVueloReadDto> _cryptRead;
         private readonly ICrypt<EstadoVueloWriteDto> _cryptWrite;
+        private readonly IErrorService _errorService;
 
-        public EstadoVueloService(AppDbContext context, IMapper mapper, ICrypt<EstadoVueloReadDto> cryptRead, ICrypt<EstadoVueloWriteDto> cryptWrite)
+        public EstadoVueloService(AppDbContext context, IMapper mapper, ICrypt<EstadoVueloReadDto> cryptRead, ICrypt<EstadoVueloWriteDto> cryptWrite, IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
+            _errorService = errorService;
         }
 
         public int CreateEstadoVuelo(EstadoVueloWriteDto estadoVuelo)
@@ -43,8 +45,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -57,8 +61,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }

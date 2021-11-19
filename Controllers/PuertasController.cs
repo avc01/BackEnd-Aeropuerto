@@ -72,5 +72,18 @@ namespace BackEnd_Aeropuerto.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("open-gates/{detalle}")]
+        public ActionResult<IEnumerable<PuertaReadDto>> GetPuertasActivas(string detalle)
+        {
+            var result = _aeroService.GetPuertasActivas(detalle);
+
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
     }
 }

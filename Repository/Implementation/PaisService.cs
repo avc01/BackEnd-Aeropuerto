@@ -19,14 +19,16 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly ICrypt<PaisReadDto> _cryptRead;
         private readonly ICrypt<PaisWriteDto> _cryptWrite;
         private readonly IConsecutivoService _consecutivoService;
+        private readonly IErrorService _errorService;
 
-        public PaisService(AppDbContext context, IMapper mapper, ICrypt<PaisReadDto> cryptRead, ICrypt<PaisWriteDto> cryptWrite, IConsecutivoService consecutivoService)
+        public PaisService(AppDbContext context, IMapper mapper, ICrypt<PaisReadDto> cryptRead, ICrypt<PaisWriteDto> cryptWrite, IConsecutivoService consecutivoService, IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
             _cryptRead = cryptRead;
             _cryptWrite = cryptWrite;
             _consecutivoService = consecutivoService;
+            _errorService = errorService;
         }
 
         public int CreatePais(PaisWriteDto pais)
@@ -48,8 +50,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }
@@ -62,8 +66,10 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
                 return 0;
             }
         }

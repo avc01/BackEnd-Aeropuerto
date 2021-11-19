@@ -16,5 +16,7 @@ namespace BackEnd_Aeropuerto.Repository
         PuertaReadDto GetPuertaById(int id);
 
         int DeletePuertaById(int id);
+
+        IEnumerable<PuertaReadDto> GetPuertasActivas(string detalle);
     }
 }

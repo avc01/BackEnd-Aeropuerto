@@ -68,7 +68,28 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
         public IEnumerable<ErrorReadDto> GetAllErrores()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = _context.Errores.FromSqlInterpolated<Error>($"sp_GetErrores")
+                    .ToList();
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                var resultMapped = _mapper.Map<IEnumerable<ErrorReadDto>>(result);
+
+                var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
+
+                return resultDecrypted;
+            }
+            catch (Exception e)
+            {
+                CreateError(new ErrorWriteDto { Mensaje = e.Message });
+            }
+
+            return null;
         }
     }
 }

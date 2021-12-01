@@ -32,38 +32,56 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
         public IEnumerable<AerolineaReadDto> GetAllAerolineas()
         {
-            var result = _context.Aerolineas.FromSqlInterpolated<Aerolinea>($"sp_GetAerolineas")
-               .ToList();
-
-            if (result == null)
+            try
             {
-                return null;
+                var result = _context.Aerolineas.FromSqlInterpolated<Aerolinea>($"sp_GetAerolineas")
+                    .ToList();
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                var resultMapped = _mapper.Map<IEnumerable<AerolineaReadDto>>(result);
+
+                var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
+
+                return resultDecrypted;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
             }
 
-            var resultMapped = _mapper.Map<IEnumerable<AerolineaReadDto>>(result);
-
-            var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
-
-            return resultDecrypted;
+            return null;
         }
 
         public AerolineaReadDto GetAerolineaById(int id)
         {
-            var result = _context.Aerolineas
-                .FromSqlInterpolated<Aerolinea>($"sp_GetAerolineaById {id}")
-                .ToList()
-                .FirstOrDefault();
-
-            if (result == null)
+            try
             {
-                return null;
+                var result = _context.Aerolineas
+                   .FromSqlInterpolated<Aerolinea>($"sp_GetAerolineaById {id}")
+                   .ToList()
+                   .FirstOrDefault();
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                var resultMapped = _mapper.Map<AerolineaReadDto>(result);
+
+                var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
+
+                return resultDecrypted;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
             }
 
-            var resultMapped = _mapper.Map<AerolineaReadDto>(result);
-
-            var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
-
-            return resultDecrypted;
+            return null;
         }
 
         public int CreateAerolinea(AerolineaWriteDto aerolinea)

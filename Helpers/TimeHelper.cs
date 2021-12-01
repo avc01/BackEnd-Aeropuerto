@@ -9,7 +9,7 @@ namespace BackEnd_Aeropuerto.Helpers
     {
         public static string GetLongDate()
         {
-            DateTime dateTime = DateTime.UtcNow;
+            DateTime dateTime = DateTime.Now;
 
             dateTime.ToLongDateString();
 

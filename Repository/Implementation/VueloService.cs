@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BackEnd_Aeropuerto.Repository.Implementation
 {
@@ -19,8 +20,20 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly ICrypt<VueloWriteDto> _cryptWrite;
         private readonly IConsecutivoService _consecutivoService;
         private readonly IErrorService _errorService;
+        private readonly IAerolineaService _aerolineaService;
+        private readonly IEstadoVueloService _estadoVueloService;
+        private readonly IPuertaService _puertaService;
 
-        public VueloService(AppDbContext context, IMapper mapper, ICrypt<VueloReadDto> cryptRead, ICrypt<VueloWriteDto> cryptWrite, IConsecutivoService consecutivoService, IErrorService errorService)
+        public VueloService(
+            AppDbContext context, 
+            IMapper mapper, 
+            ICrypt<VueloReadDto> cryptRead, 
+            ICrypt<VueloWriteDto> cryptWrite, 
+            IConsecutivoService consecutivoService, 
+            IErrorService errorService,
+            IAerolineaService aerolineaService,
+            IEstadoVueloService estadoVueloService,
+            IPuertaService puertaService)
         {
             _context = context;
             _mapper = mapper;
@@ -28,6 +41,9 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
             _cryptWrite = cryptWrite;
             _consecutivoService = consecutivoService;
             _errorService = errorService;
+            _aerolineaService = aerolineaService;
+            _estadoVueloService = estadoVueloService;
+            _puertaService = puertaService;
         }
 
         public IEnumerable<VueloReadDto> GetAllVuelos()
@@ -107,6 +123,62 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
                 return 0;
             }
+        }
+
+        public object GetVueloEntrantes() 
+        {
+            // Calls
+            var queryVuelos = GetAllVuelos();
+            var queryAerolineas = _aerolineaService.GetAllAerolineas();
+            var queryEstados = _estadoVueloService.GetAllEstadoVuelos();
+            var queryPuertas = _puertaService.GetAllPuertas();
+
+            // Filters
+            var query = (from vuelo in queryVuelos
+                              join aerolinea in queryAerolineas on vuelo.AerolineaId equals aerolinea.AerolineaId
+                              join estado in queryEstados on vuelo.EstadoVueloId equals estado.EstadoVueloId
+                              join puerta in queryPuertas on vuelo.PuertaId equals puerta.PuertaId
+                              where estado.Tipo == "Entrante"
+                              select new
+                              {
+                                  VueloId = vuelo.VueloId,
+                                  Procedencia = vuelo.Procedencia,
+                                  Destino = vuelo.Destino,
+                                  FechaHora = vuelo.FechaHora,
+                                  Consecutivo = vuelo.Consecutivo,
+                                  Aerolinea = aerolinea.Nombre,
+                                  Puerta = puerta.NumeroPuerta,
+                                  Estado = estado.Estado
+                              }).ToList();
+            return query;
+        }
+
+        public object GetVueloSalientes()
+        {
+            // Calls
+            var queryVuelos = GetAllVuelos();
+            var queryAerolineas = _aerolineaService.GetAllAerolineas();
+            var queryEstados = _estadoVueloService.GetAllEstadoVuelos();
+            var queryPuertas = _puertaService.GetAllPuertas();
+
+            // Filters
+            var query = (from vuelo in queryVuelos
+                         join aerolinea in queryAerolineas on vuelo.AerolineaId equals aerolinea.AerolineaId
+                         join estado in queryEstados on vuelo.EstadoVueloId equals estado.EstadoVueloId
+                         join puerta in queryPuertas on vuelo.PuertaId equals puerta.PuertaId
+                         where estado.Tipo == "Saliente"
+                         select new
+                         {
+                             VueloId = vuelo.VueloId,
+                             Procedencia = vuelo.Procedencia,
+                             Destino = vuelo.Destino,
+                             FechaHora = vuelo.FechaHora,
+                             Consecutivo = vuelo.Consecutivo,
+                             Aerolinea = aerolinea.Nombre,
+                             Puerta = puerta.NumeroPuerta,
+                             Estado = estado.Estado
+                         }).ToList();
+            return query;
         }
     }
 }

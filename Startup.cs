@@ -14,6 +14,7 @@ namespace BackEnd_Aeropuerto
 {
     public class Startup
     {
+        private readonly string _MyCors = "MyCors";
         public IConfiguration Configuration { get; }
 
         private readonly IWebHostEnvironment _env;
@@ -46,6 +47,14 @@ namespace BackEnd_Aeropuerto
             services.AddScoped(typeof(ICrypt<>), typeof(Crypt<>));
             services.AddDataProtection();
 
+            services.AddCors(options => 
+            {
+                options.AddPolicy(name: _MyCors, builder => 
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -67,6 +76,8 @@ namespace BackEnd_Aeropuerto
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(_MyCors);
 
             app.UseAuthorization();
 

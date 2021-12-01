@@ -30,38 +30,56 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
         public IEnumerable<ConsecutivoReadDto> GetAllConsecutivos()
         {
-            var result = _context.Consecutivos.FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivos")
-                .ToList();
-
-            if (result == null)
+            try
             {
-                return null;
+                var result = _context.Consecutivos.FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivos")
+                    .ToList();
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                var resultMapped = _mapper.Map<IEnumerable<ConsecutivoReadDto>>(result);
+
+                var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
+
+                return resultDecrypted;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
             }
 
-            var resultMapped = _mapper.Map<IEnumerable<ConsecutivoReadDto>>(result);
-
-            var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
-
-            return resultDecrypted;
+            return null;
         }
 
         public ConsecutivoReadDto GetConsecutivoById(int id) 
         {
-            var result = _context.Consecutivos
-                .FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivoById {id}")
-                .ToList()
-                .FirstOrDefault();
-
-            if (result == null)
+            try
             {
-                return null;
+                var result = _context.Consecutivos
+                    .FromSqlInterpolated<Consecutivo>($"sp_GetConsecutivoById {id}")
+                    .ToList()
+                    .FirstOrDefault();
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                var resultMapped = _mapper.Map<ConsecutivoReadDto>(result);
+
+                var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
+
+                return resultDecrypted;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
             }
 
-            var resultMapped = _mapper.Map<ConsecutivoReadDto>(result);
-
-            var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
-
-            return resultDecrypted;
+            return null;
         }
 
         public int CreateConsecutivo(ConsecutivoWriteDto consecutivo)

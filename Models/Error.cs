@@ -10,7 +10,7 @@ namespace BackEnd_Aeropuerto.Models
         [Key]
         public int ErrorId { get; set; }
 
-        public string FechaHora { get; set; }
+        public string? FechaHora { get; set; }
 
         public int? Numero { get; set; }
 

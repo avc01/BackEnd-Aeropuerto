@@ -69,5 +69,31 @@ namespace BackEnd_Aeropuerto.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("vuelos-entrantes")]
+        public IActionResult GetVuelosEntrantes()
+        {
+            var result = _aeroService.GetVueloEntrantes();
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return new JsonResult(result);
+        }
+
+        [HttpGet("vuelos-salientes")]
+        public IActionResult GetVuelosSalientes()
+        {
+            var result = _aeroService.GetVueloSalientes();
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return new JsonResult(result);
+        }
     }
 }

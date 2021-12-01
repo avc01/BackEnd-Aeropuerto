@@ -13,5 +13,9 @@ namespace BackEnd_Aeropuerto.Repository
         VueloReadDto GetVueloById(int id);
 
         int DeleteVueloById(int id);
+
+        object GetVueloEntrantes();
+
+        object GetVueloSalientes();
     }
 }

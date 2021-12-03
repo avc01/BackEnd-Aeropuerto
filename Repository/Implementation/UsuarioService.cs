@@ -20,7 +20,12 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
         private readonly ICrypt<UsuarioWriteDto> _cryptWrite;
         private readonly IErrorService _errorService;
 
-        public UsuarioService(AppDbContext context, IMapper mapper, ICrypt<UsuarioReadDto> cryptRead, ICrypt<UsuarioWriteDto> cryptWrite, IErrorService errorService)
+        public UsuarioService(
+            AppDbContext context, 
+            IMapper mapper, 
+            ICrypt<UsuarioReadDto> cryptRead, 
+            ICrypt<UsuarioWriteDto> cryptWrite,
+            IErrorService errorService)
         {
             _context = context;
             _mapper = mapper;
@@ -60,8 +65,19 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
             try
             {
+                // Se crea el usuario con un procedimiento almacenado.
                 _context.Database.ExecuteSqlInterpolated($"sp_CreateUsuario {resultMapped.NombreUsuario}, {resultMapped.Contraseña}, {resultMapped.ConfirmaContraseña}, {resultMapped.Correo}, {resultMapped.Pregunta}, {resultMapped.Respuesta}");
 
+                // Se busca el ultimo usuario creado para extraer el primery key con un procedimiento almacenado.
+                var allUsuarios = GetAllUsuarios().TakeLast(1).FirstOrDefault();
+
+                // Se encripta el rol por defecto a asignar.
+                var encryptedResult = _cryptWrite.EncryptSingleString("Consulta");
+
+                // Se crea el rol por defecto "Consulta" asignado usuario recientemente creado con un procedimiento almacenado.
+                _context.Database.ExecuteSqlInterpolated($"sp_CreateRol {encryptedResult},{allUsuarios.UsuarioId}");
+
+                // Se retorna un 1 indicando que fue un exito.
                 return 1;
             }
             catch (Exception e)
@@ -93,10 +109,7 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
             var result = _context.Usuarios.FromSqlInterpolated<Usuario>($"sp_GetUsuarios")
                 .ToList();
 
-            if (result == null)
-            {
-                return null;
-            }
+            if (result is null) return null;
 
             var resultMapped = _mapper.Map<IEnumerable<UsuarioReadDto>>(result);
 
@@ -112,16 +125,29 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
                .ToList()
                .FirstOrDefault();
 
-            if (result == null)
-            {
-                return null;
-            }
+            if (result is null) return null;
 
             var resultMapped = _mapper.Map<UsuarioReadDto>(result);
 
             var resultDecrypted = _cryptRead.DecryptDataOneRow(resultMapped);
 
             return resultDecrypted;
+        }
+        
+        public object GetUsuarioByEmail(string correo, string clave)
+        {
+            var result = GetAllUsuarios();
+
+            var resultFiltered = result.Where(x => x.Correo == correo && x.Contraseña == clave).FirstOrDefault();
+
+            if (resultFiltered is null) return false;
+
+            var userRolResult = _context.Roles.FromSqlInterpolated<Rol>($"sp_GetRolesDeUsuario {resultFiltered.UsuarioId}")
+                .ToList().Select(x => x.Tipo);
+
+            var userRolResultDecrypted = _cryptRead.DecryptEnumerableString(userRolResult);
+                
+            return new { EstaLogeado = true, userRolResultDecrypted };
         }
     }
 }

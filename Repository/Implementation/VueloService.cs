@@ -127,7 +127,7 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
         public object GetVueloEntrantes() 
         {
-            // Calls
+            // Calls Stored Procedures.
             var queryVuelos = GetAllVuelos();
             var queryAerolineas = _aerolineaService.GetAllAerolineas();
             var queryEstados = _estadoVueloService.GetAllEstadoVuelos();

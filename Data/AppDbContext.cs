@@ -60,6 +60,10 @@ namespace BackEnd_Aeropuerto.Data
                .WithMany(x => x.Vuelos)
                .HasForeignKey(x => x.EstadoVueloId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.Correo)
+                .IsUnique(true);
         }
     }
 }

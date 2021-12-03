@@ -4,6 +4,8 @@
     {
         public int RolId { get; set; }
 
-        public int Tipo { get; set; }
+        public string Tipo { get; set; }
+
+        public int UsuarioId { get; set; }
     }
 }

@@ -85,5 +85,17 @@ namespace BackEnd_Aeropuerto.DataEncryption
         {
             return _dataProtector.Protect(value);
         }
+
+        public IEnumerable<string> DecryptEnumerableString(IEnumerable<string> lista)
+        {
+            List<string> listToReturn = new List<string>();
+
+            foreach (var item in lista)
+            {
+               listToReturn.Add(_dataProtector.Unprotect(item));
+            }
+           
+            return listToReturn;
+        }
     }
 }

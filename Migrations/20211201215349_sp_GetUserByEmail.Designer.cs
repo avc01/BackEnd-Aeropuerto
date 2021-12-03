@@ -4,14 +4,16 @@ using BackEnd_Aeropuerto.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackEnd_Aeropuerto.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211201215349_sp_GetUserByEmail")]
+    partial class sp_GetUserByEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,16 +299,10 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.HasKey("RolId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Roles");
                 });
@@ -367,7 +363,7 @@ namespace BackEnd_Aeropuerto.Migrations
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
@@ -382,9 +378,6 @@ namespace BackEnd_Aeropuerto.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UsuarioId");
-
-                    b.HasIndex("Correo")
-                        .IsUnique();
 
                     b.ToTable("Usuarios");
                 });
@@ -435,6 +428,21 @@ namespace BackEnd_Aeropuerto.Migrations
                     b.HasIndex("PuertaId");
 
                     b.ToTable("Vuelos");
+                });
+
+            modelBuilder.Entity("RolUsuario", b =>
+                {
+                    b.Property<int>("RolesRolId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuariosUsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolesRolId", "UsuariosUsuarioId");
+
+                    b.HasIndex("UsuariosUsuarioId");
+
+                    b.ToTable("RolUsuario");
                 });
 
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Aerolinea", b =>
@@ -535,17 +543,6 @@ namespace BackEnd_Aeropuerto.Migrations
                     b.Navigation("Vuelos");
                 });
 
-            modelBuilder.Entity("BackEnd_Aeropuerto.Models.Rol", b =>
-                {
-                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", "Usuarios")
-                        .WithMany("Roles")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuarios");
-                });
-
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Tarjeta", b =>
                 {
                     b.HasOne("BackEnd_Aeropuerto.Models.Usuario", "Usuarios")
@@ -592,6 +589,21 @@ namespace BackEnd_Aeropuerto.Migrations
                     b.Navigation("Puertas");
                 });
 
+            modelBuilder.Entity("RolUsuario", b =>
+                {
+                    b.HasOne("BackEnd_Aeropuerto.Models.Rol", null)
+                        .WithMany()
+                        .HasForeignKey("RolesRolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd_Aeropuerto.Models.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UsuariosUsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Aerolinea", b =>
                 {
                     b.Navigation("Vuelos");
@@ -629,8 +641,6 @@ namespace BackEnd_Aeropuerto.Migrations
                     b.Navigation("Compras");
 
                     b.Navigation("Reservas");
-
-                    b.Navigation("Roles");
 
                     b.Navigation("Tarjetas");
                 });

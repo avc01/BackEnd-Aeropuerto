@@ -11,10 +11,14 @@ namespace BackEnd_Aeropuerto.Models
         public int RolId { get; set; }
 
         [Required]
-        public int Tipo { get; set; }
+        public string Tipo { get; set; }
 
         // Navigation properties
 
-        public ICollection<Usuario> Usuarios { get; set; }
+        [ForeignKey("Usuarios")]
+        [Required]
+        public int UsuarioId { get; set; }
+
+        public Usuario Usuarios { get; set; }
     }
 }

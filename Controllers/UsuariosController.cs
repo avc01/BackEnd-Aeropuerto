@@ -50,18 +50,31 @@ namespace BackEnd_Aeropuerto.Controllers
             return Ok(result);
         }
 
+        [HttpGet("usuario-login")]
+        public IActionResult GetUsuarioByEmail(string correo,string clave)
+        {
+            var result = _aeroService.GetUsuarioByEmail(correo, clave);
+
+            if (result is false)
+            {
+                return new JsonResult(new { EstaLogeado = false });
+            }
+
+            return new JsonResult(result);
+        }
+
         [HttpPost]
         [Description("Crea un usuario")]
-        public ActionResult CreateUsuario([FromBody] UsuarioWriteDto usuario)
+        public IActionResult CreateUsuario([FromBody] UsuarioWriteDto usuario)
         {
             var result = _aeroService.CreateUsuario(usuario);
 
             if (result > 0)
             {
-                return Created("api/CreateUsuario", usuario);
+                return new JsonResult(new { fueCreado = true });
             }
 
-            return BadRequest();
+            return new JsonResult(new { fueCreado = false });
         }
 
         [HttpDelete("{id}")]

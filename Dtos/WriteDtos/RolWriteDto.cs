@@ -5,6 +5,9 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
     public class RolWriteDto
     {
         [Required]
-        public int Tipo { get; set; }
+        public string Tipo { get; set; }
+
+        [Required]
+        public int UsuarioId { get; set; }
     }
 }

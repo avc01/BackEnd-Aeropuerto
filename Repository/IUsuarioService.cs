@@ -18,5 +18,7 @@ namespace BackEnd_Aeropuerto.Repository
         UsuarioReadDto GetUsuarioById(int id);
 
         int DeleteUsuarioById(int id);
+
+        object GetUsuarioByEmail(string correo, string clave);
     }
 }

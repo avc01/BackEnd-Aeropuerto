@@ -50,6 +50,16 @@ namespace BackEnd_Aeropuerto.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user-profile-by-mail/{correo}")]
+        public ActionResult<UsuarioReadDto> GetUsuarioProfileByEmail([FromRoute] string correo)
+        {
+            var result = _aeroService.GetUsuarioProfileByEmail(correo);
+
+            if (result is null) return NotFound();
+
+            return Ok(result);
+        }
+
         [HttpGet("usuario-login")]
         public IActionResult GetUsuarioByEmail(string correo,string clave)
         {
@@ -91,18 +101,18 @@ namespace BackEnd_Aeropuerto.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
+        [HttpPut("id/{id}/contra/{newPassword}")]
         [Description("Cambia la password del usuario")]
-        public ActionResult ChangePassword(int id, string newPassword) 
+        public IActionResult ChangePassword(int id, string newPassword) 
         {
             var result = _aeroService.ChangePassword(id, newPassword);
 
             if (result > 0)
             {
-                return Ok();
+                return new JsonResult(new { fueCambiada = true});
             }
 
-            return BadRequest();
+            return new JsonResult(new { fueCambiada = false });
         }
     }
 }

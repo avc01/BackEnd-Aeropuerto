@@ -133,7 +133,27 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
             return resultDecrypted;
         }
-        
+
+        public UsuarioReadDto GetUsuarioProfileByEmail(string correo)
+        {
+            try
+            {
+                var result = GetAllUsuarios();
+
+                var resultFiltered = result.Where(x => x.Correo == correo).FirstOrDefault();
+
+                if (resultFiltered is null) return null;
+
+                return resultFiltered;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
+                return null;
+            }
+        }
+
         public object GetUsuarioByEmail(string correo, string clave)
         {
             var result = GetAllUsuarios();

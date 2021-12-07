@@ -35,6 +35,7 @@ namespace BackEnd_Aeropuerto
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddScoped<IRolService, RolService>();
             services.AddScoped<IErrorService, ErrorService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IPaisService, PaisService>();

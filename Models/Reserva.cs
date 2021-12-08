@@ -15,7 +15,6 @@ namespace BackEnd_Aeropuerto.Models
         [Required]
         public int NumeroReservacion { get; set; }
 
-        [StringLength(7)]
         [Required]
         public string BookingId { get; set; }
 

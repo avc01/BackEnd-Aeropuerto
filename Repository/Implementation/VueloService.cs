@@ -180,5 +180,33 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
                          }).ToList();
             return query;
         }
+
+        public object GetVuelosDisponiblesCompraReserva()
+        {
+            // Calls to Stored Procedures
+            var queryVuelos = GetAllVuelos();
+            var queryAerolineas = _aerolineaService.GetAllAerolineas();
+            var queryEstados = _estadoVueloService.GetAllEstadoVuelos();
+            var queryPuertas = _puertaService.GetAllPuertas();
+
+            // Filters
+            var query = (from vuelo in queryVuelos
+                         join aerolinea in queryAerolineas on vuelo.AerolineaId equals aerolinea.AerolineaId
+                         join estado in queryEstados on vuelo.EstadoVueloId equals estado.EstadoVueloId
+                         join puerta in queryPuertas on vuelo.PuertaId equals puerta.PuertaId
+                         where estado.Estado == "Confirmado"
+                         select new
+                         {
+                             VueloId = vuelo.VueloId,
+                             Procedencia = vuelo.Procedencia,
+                             Destino = vuelo.Destino,
+                             FechaHora = vuelo.FechaHora,
+                             Consecutivo = vuelo.Consecutivo,
+                             Aerolinea = aerolinea.Nombre,
+                             Puerta = puerta.NumeroPuerta,
+                             Estado = estado.Estado
+                         }).ToList();
+            return query;
+        }
     }
 }

@@ -5,9 +5,11 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
     public class ReservaWriteDto
     {
         [Required]
+        public string FechaHora { get; set; }
+
+        [Required]
         public int NumeroReservacion { get; set; }
 
-        [StringLength(7)]
         [Required]
         public string BookingId { get; set; }
 
@@ -25,5 +27,8 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
 
         [Required]
         public int UsuarioId { get; set; }
+
+        [Required]
+        public string? Consecutivo { get; set; }
     }
 }

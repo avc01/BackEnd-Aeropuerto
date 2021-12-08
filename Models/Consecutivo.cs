@@ -31,10 +31,6 @@ namespace BackEnd_Aeropuerto.Models
 
         public Pais Paises { get; set; }
 
-        public Compra Compras { get; set; }
-
-        public Reserva Reservas { get; set; }
-
         public Vuelo Vuelos { get; set; }
     }
 }

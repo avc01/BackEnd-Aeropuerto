@@ -36,10 +36,7 @@ namespace BackEnd_Aeropuerto.Controllers
         {
             var result = _aeroService.GetVueloById(id);
 
-            if (result == null)
-            {
-                return NotFound();
-            }
+            if (result is null) return NotFound();
 
             return Ok(result);
         }
@@ -75,10 +72,7 @@ namespace BackEnd_Aeropuerto.Controllers
         {
             var result = _aeroService.GetVueloEntrantes();
 
-            if (result == null)
-            {
-                return NotFound();
-            }
+            if (result is null) return NotFound();
 
             return new JsonResult(result);
         }
@@ -88,10 +82,17 @@ namespace BackEnd_Aeropuerto.Controllers
         {
             var result = _aeroService.GetVueloSalientes();
 
-            if (result == null)
-            {
-                return NotFound();
-            }
+            if (result is null) return NotFound();
+
+            return new JsonResult(result);
+        }
+
+        [HttpGet("vuelos-disponibles")]
+        public IActionResult GetVuelosDisponibles()
+        {
+            var result = _aeroService.GetVuelosDisponiblesCompraReserva();
+
+            if (result is null) return NotFound();
 
             return new JsonResult(result);
         }

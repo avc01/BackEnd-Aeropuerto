@@ -4,14 +4,16 @@ using BackEnd_Aeropuerto.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackEnd_Aeropuerto.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211207232045_sp_CreateReserva")]
+    partial class sp_CreateReserva
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +108,8 @@ namespace BackEnd_Aeropuerto.Migrations
 
                     b.HasKey("CompraId");
 
-                    b.HasIndex("ConsecutivoId");
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
@@ -250,7 +253,8 @@ namespace BackEnd_Aeropuerto.Migrations
 
                     b.Property<string>("BookingId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
@@ -278,7 +282,8 @@ namespace BackEnd_Aeropuerto.Migrations
 
                     b.HasKey("ReservaId");
 
-                    b.HasIndex("ConsecutivoId");
+                    b.HasIndex("ConsecutivoId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
@@ -459,8 +464,8 @@ namespace BackEnd_Aeropuerto.Migrations
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Compra", b =>
                 {
                     b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
-                        .WithMany()
-                        .HasForeignKey("ConsecutivoId")
+                        .WithOne("Compras")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Compra", "ConsecutivoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -508,8 +513,8 @@ namespace BackEnd_Aeropuerto.Migrations
             modelBuilder.Entity("BackEnd_Aeropuerto.Models.Reserva", b =>
                 {
                     b.HasOne("BackEnd_Aeropuerto.Models.Consecutivo", "Consecutivos")
-                        .WithMany()
-                        .HasForeignKey("ConsecutivoId")
+                        .WithOne("Reservas")
+                        .HasForeignKey("BackEnd_Aeropuerto.Models.Reserva", "ConsecutivoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -598,9 +603,13 @@ namespace BackEnd_Aeropuerto.Migrations
                 {
                     b.Navigation("Aerolineas");
 
+                    b.Navigation("Compras");
+
                     b.Navigation("Paises");
 
                     b.Navigation("Puertas");
+
+                    b.Navigation("Reservas");
 
                     b.Navigation("Vuelos");
                 });

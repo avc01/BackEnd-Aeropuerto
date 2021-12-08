@@ -17,5 +17,7 @@ namespace BackEnd_Aeropuerto.Repository
         object GetVueloEntrantes();
 
         object GetVueloSalientes();
+
+        object GetVuelosDisponiblesCompraReserva();
     }
 }

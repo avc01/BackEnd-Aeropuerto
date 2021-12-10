@@ -4,14 +4,16 @@ using BackEnd_Aeropuerto.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BackEnd_Aeropuerto.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211208150127_sp_CreateVuelo")]
+    partial class sp_CreateVuelo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -330,8 +332,8 @@ namespace BackEnd_Aeropuerto.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("NumeroTarjeta")
-                        .HasColumnType("bigint");
+                    b.Property<int>("NumeroTarjeta")
+                        .HasColumnType("int");
 
                     b.Property<string>("Tipo")
                         .IsRequired()

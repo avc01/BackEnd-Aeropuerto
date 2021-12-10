@@ -6,7 +6,7 @@ namespace BackEnd_Aeropuerto.Dtos
     {
         public int TarjetaId { get; set; }
 
-        public int NumeroTarjeta { get; set; }
+        public long NumeroTarjeta { get; set; }
 
         public string Marca { get; set; }
 

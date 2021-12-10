@@ -10,9 +10,8 @@ namespace BackEnd_Aeropuerto.Models
         [Key]
         public int TarjetaId { get; set; }
 
-        [CreditCard]
         [Required]
-        public int NumeroTarjeta { get; set; }
+        public long NumeroTarjeta { get; set; }
 
         [Required]
         public string Marca { get; set; }

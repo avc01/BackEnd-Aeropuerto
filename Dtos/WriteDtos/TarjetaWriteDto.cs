@@ -5,9 +5,8 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
 {
     public class TarjetaWriteDto
     {
-        [CreditCard]
         [Required]
-        public int NumeroTarjeta { get; set; }
+        public long NumeroTarjeta { get; set; }
 
         [Required]
         public string Marca { get; set; }
@@ -24,7 +23,8 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
         [Required]
         public string AnoExp { get; set; }
 
-        [Required]
         public int UsuarioId { get; set; }
+
+        public string CorreoUsuario { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace BackEnd_Aeropuerto.Controllers
         }
 
         [HttpPost("cantidad/{cantidad}/total/{total}/vueloid/{vueloId}/correo/{correo}")]
-        public IActionResult CreateUsuario(int cantidad, double total, int vueloId, string correo)
+        public IActionResult CreateReserva(int cantidad, double total, int vueloId, string correo)
         {
             var result = _aeroService.CreateReserva(cantidad, total, vueloId, correo);
 
@@ -57,6 +57,16 @@ namespace BackEnd_Aeropuerto.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpGet("reservas-correo/{correo}")]
+        public ActionResult<IEnumerable<ReservaReadDto>> GetReservasDeUsuario(string correo)
+        {
+            var result = _aeroService.GetReservasByEmail(correo);
+
+            if (result is null) return NotFound();
+
+            return Ok(result);
         }
     }
 }

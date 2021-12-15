@@ -118,7 +118,24 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
 
         public object GetReservasByEmail(string correo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var usuarioId = _usuarioService.GetUsuarioProfileByEmail(correo).UsuarioId;
+
+                var reservas = GetAllReservas();
+
+                var reservasDeUsuario = reservas.Where(x => x.UsuarioId == usuarioId);
+
+                if (reservasDeUsuario is null) return null;
+
+                return reservasDeUsuario;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
+                return null;
+            }
         }
     }
 }

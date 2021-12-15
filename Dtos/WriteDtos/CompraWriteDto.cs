@@ -8,19 +8,24 @@ namespace BackEnd_Aeropuerto.Dtos.WriteDtos
 {
     public class CompraWriteDto
     {
+        public string FechaHora { get; set; }
+
         [Required]
         public double Precio { get; set; }
 
         [Required]
         public int Cantidad { get; set; }
 
-        [Required]
         public int ConsecutivoId { get; set; }
 
         [Required]
         public int VueloId { get; set; }
 
-        [Required]
         public int UsuarioId { get; set; }
+
+        public string Consecutivo { get; set; }
+
+        [Required]
+        public string CorreoUsuario { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace BackEnd_Aeropuerto.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE sp_DeleteConsecutivoById
+            var sp = @"CREATE PROCEDURE sp_DeleteConsecutivoByIdd
 	                       @Id int
                        AS
                        BEGIN

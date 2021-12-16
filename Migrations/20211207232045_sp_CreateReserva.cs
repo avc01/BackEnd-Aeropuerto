@@ -6,7 +6,7 @@ namespace BackEnd_Aeropuerto.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE sp_CreateReserva
+            var sp = @"CREATE PROCEDURE sp_CreateReservaa
 							@FechaHora nvarchar(MAX),
 							@NumeroReservacion int,
 							@BookingId nvarchar(7),

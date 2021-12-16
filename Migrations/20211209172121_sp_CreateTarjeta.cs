@@ -6,7 +6,7 @@ namespace BackEnd_Aeropuerto.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE sp_CreateTarjeta
+            var sp = @"CREATE PROCEDURE sp_CreateTarjetaa
 							@NumeroTarjeta int,
 							@Marca nvarchar(MAX),
 							@Tipo nvarchar(MAX),

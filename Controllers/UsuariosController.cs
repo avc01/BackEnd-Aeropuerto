@@ -89,16 +89,16 @@ namespace BackEnd_Aeropuerto.Controllers
 
         [HttpDelete("{id}")]
         [Description("Elimina un usuario mediante id")]
-        public ActionResult DeleteUsuarioById([FromRoute] int id)
+        public IActionResult DeleteUsuarioById([FromRoute] int id)
         {
             var result = _aeroService.DeleteUsuarioById(id);
 
             if (result > 0)
             {
-                return Ok();
+                return new JsonResult(new { fueBorrado = true });
             }
 
-            return BadRequest();
+            return new JsonResult(new { fueBorrado = false });
         }
 
         [HttpPut("id/{id}/contra/{newPassword}")]

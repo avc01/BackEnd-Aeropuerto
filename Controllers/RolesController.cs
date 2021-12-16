@@ -30,6 +30,16 @@ namespace BackEnd_Aeropuerto.Controllers
             return new JsonResult(result);
         }
 
+        [HttpGet("roles-usuarios")]
+        public IActionResult GetRolesUsuarios()
+        {
+            var result = _aeroService.GetAllRolesUsuarios();
+
+            if (result is null) return NotFound();
+
+            return new JsonResult(result);
+        }
+
         [HttpPost]
         public IActionResult CreateRol([FromBody] RolWriteDto rol)
         {

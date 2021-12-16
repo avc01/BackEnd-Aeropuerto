@@ -112,5 +112,41 @@ namespace BackEnd_Aeropuerto.Repository.Implementation
                 return null;
             }
         }
+
+        public object GetAllRolesUsuarios()
+        {
+            try
+            {
+                var resultAllUsers = _usuarioService.GetAllUsuarios();
+
+                var result = _context.Roles.FromSqlInterpolated<Rol>($"sp_GetRoles")
+                    .ToList();
+
+                if (result is null) return null;
+
+                var resultMapped = _mapper.Map<IEnumerable<RolReadDto>>(result);
+
+                var resultDecrypted = _cryptRead.DecryptDataMultipleRows(resultMapped);
+
+                var query = (from roles in resultDecrypted
+                             join usuarios in resultAllUsers on roles.UsuarioId equals usuarios.UsuarioId
+                             where roles.Tipo != "Consulta" 
+                             select new
+                             {
+                                 Id = roles.RolId,
+                                 Rol = roles.Tipo,
+                                 UsuarioId = roles.UsuarioId,
+                                 NombreDeUsuario = usuarios.NombreUsuario
+                             }).ToList();
+
+                return query;
+            }
+            catch (Exception e)
+            {
+                _errorService.CreateError(new ErrorWriteDto { Mensaje = e.Message });
+
+                return null;
+            }
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace BackEnd_Aeropuerto.Repository
         object GetAllRoles();
 
         int DeleteRolById(int id);
+
+        object GetAllRolesUsuarios();
     }
 }

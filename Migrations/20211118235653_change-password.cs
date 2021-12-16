@@ -6,7 +6,7 @@ namespace BackEnd_Aeropuerto.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE sp_ChangePassword
+            var sp = @"CREATE PROCEDURE sp_ChangePasswordd
 	                        @Id int,
 	                        @Password nvarchar(MAX)
                         AS
